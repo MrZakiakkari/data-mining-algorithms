@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Assessment 3 Data Mining Algorithms
+# # Assessment 3 Data Mining Algorithms
 # 
 # Where appropriate add two cells below the question.  One a code cell to hold any code you used, and the second a markdown cell to hold the explanation.  
 # You are to submit your notebook file, which should be labelled yourname_assign3
@@ -10,18 +10,18 @@
 import numpy as np
 import pandas as pd  # To read data
 from sklearn.linear_model import LinearRegression
-import seaborn as sns #To visualise
+import seaborn as sns  #To visualise
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import cross_val_score
 
 
-diamonds = sns. load_dataset ("diamonds") 
+diamonds = sns.load_dataset("diamonds")
 
 diamonds.columns
 
 
-# ### Diamonds metadata
+# ### Diamonds meta data
 # #### price 
 # price in US dollars (\$326--\$18,823)<br>
 # 
