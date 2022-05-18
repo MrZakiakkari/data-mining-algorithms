@@ -163,12 +163,15 @@ print("rmse: ",rmse)
 # #### In a markdown cell, provide justification as to why you chose the variable<br>
 # Remember to use a reasonable split on the data to create test and train subsets 
 
-# caret  
+# caret 
+# 
 # score: 0.8493313275232197  
 # coef_: [[7761.92989215]]    
 # intercept_: [-2261.72208262]  
 # rmse:  1582.3550379033259  
-# x  
+# 
+# x
+# 
 # score: 0.7871769599303438  
 # coef_: [[3165.68767825]]  
 # intercept_: [-14211.73813022]  
