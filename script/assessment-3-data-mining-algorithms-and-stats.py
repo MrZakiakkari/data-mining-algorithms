@@ -62,7 +62,7 @@ diamonds_dataframe.columns
 # width of top of diamond relative to widest point (43--95)<br>
 
 # #### 1. In the diamonds data set identify quantitative variables that have  linear relationships
-# ####  <div style="text-align: right"> (5 marks) </div><br>
+# <div style="text-align: right"> (5 marks) </div><br>
 
 # ## Exploratory Data Analysis
 
@@ -192,34 +192,103 @@ print("rmse: ",rmse)
 # 4. What are dummy variables, what is the Dummy Variable Trap and how can we overcome it?<div style="text-align: right"> (5 marks) </div>
 
 # put answer in here...
+# A dummy variable is a variable that takes values of 0 and 1, where the values indicate the presence or absence of something (e.g., a 0 may indicate a placebo and 1 may indicate a drug). The Dummy Variable trap is a scenario in which the independent variables are multicollinear - a scenario in which two or more variables are highly correlated; in simple terms one variable can be predicted from the others. To overcome the Dummy variable Trap, we drop one of the columns created when the categorical variables were converted to dummy variables by one-hot encoding. This can be done because the dummy variables include redundant information.
 
 # 5. With regard to a linear regression model explain the meaning and importance of : <br>
-# R^2
+# R^2: 
+# R-squared is a goodness-of-fit measure for linear regression models. This statistic indicates the percentage of the variance in the dependent variable that the independent variables explain collectively. R-squared measures the strength of the relationship between your model and the dependent variable on a convenient 0 – 100% scale.
 # ####  <div style="text-align: right"> (5 marks) </div><br>
-# The coefficient (weight) associated with an independent variable
+# The coefficient (weight) associated with an independent variable:
+# The regular regression coefficients that you see in your statistical output describe the relationship between the independent variables and the dependent variable. The coefficient value represents the mean change of the dependent variable given a one-unit shift in an independent variable. Consequently, you might think you can use the absolute sizes of the coefficients to identify the most important variable. After all, a larger coefficient signifies a greater change in the mean of the independent variable.
 # ####  <div style="text-align: right"> (5 marks) </div><br>
-# The Intercept
+# The Intercept:
+# The intercept (often labeled as constant) is the point where the function crosses the y-axis. In some analysis, the regression model only becomes significant when we remove the intercept, and the regression line reduces to Y = bX + error.
 # ####  <div style="text-align: right"> (5 marks) </div><br>
-# root mean squared error
+# root mean squared error:
+# Root Mean Square Error (RMSE) is the standard deviation of the residuals (prediction errors). Residuals are a measure of how far from the regression line data points are; RMSE is a measure of how spread out these residuals are. In other words, it tells you how concentrated the data is around the line of best fit. Root mean square error is commonly used in climatology, forecasting, and regression analysis to verify experimental results.
 # ####  <div style="text-align: right"> (5 marks) </div><br>
 # 
 
 # 6. The mean life of a battery is 50 hours with a standard deviation of 6 hours. The mean life of batteries follow a normal distribution.  The manufacturer advertises that they will replace all batteries that last less than 38 hours. If 100,000 batteries were produced, how many would they expect to replace?  In your answer explain your workings 
 # ####  <div style="text-align: right"> (5 marks) </div><br><br>
 
-# 7. A quality contorl process uses a grading scale to grade the quality of the batteries.  1000 batteries are produced. It is assumed that the scores are normally distributed with a mean score of 75 and a standard deviation of 15
+# $
+# X \sim \operatorname{Normal}(\mu = 50, \sigma = 6) \\
+# p = \Pr[X < 38] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{38 - 50}{6} \right] = \Pr[Z < -2] \approx 0.02275,\\
+# $
+# 0.02275 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)
+# 
+# where Z∼Normal(0,1) is a standard normal random variable. This means any single battery has only about a 2.275% chance of not lasting more than 38 hours.
+# 
+# $
+# n=100,000\\
+# p=0.02275\\
+# n*p=2,275\\
+# $
+
+# 7. A quality control process uses a grading scale to grade the quality of the batteries.  1000 batteries are produced. It is assumed that the scores are normally distributed with a mean score of 75 and a standard deviation of 15
 # a)	How many batteries will have scores between 45 and 75?
 # b)  If 60 is the lowest passing score, how many batteries are expected to pass the quality control check?
 # In your answer, explain your workings.
 # ####  <div style="text-align: right"> (10 marks) </div><br><br>
 # 
 
-# 8. The length of time the batteries are on the supermarket shelf before being sold is a mean of 12 days and a standard deviation of 3 days.  It can be assumed that the number of days on the shelf follows a normal distribution.  Answer the following questions, explai your workings for each.<br>
+# (a)  
+# $
+# X \sim \operatorname{Normal}(\mu = 75, \sigma = 15) \\
+# $
+# $
+# p = \Pr[X < 75] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{75 - 75}{15} \right] = \Pr[Z < 0] \approx 0.5,\\
+# $
+# 0.5 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)  
+# $
+# p = \Pr[X < 45] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{45 - 75}{15} \right] = \Pr[Z < -2] \approx 0.02275,\\
+# $
+# 0.02275 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)  
+# $
+# p = \Pr[45 < X < 75] =  \Pr[X < 75] -  \Pr[X < 45]\\
+# p = \Pr[45 < X < 75] = 0.5 - 0.02275 = 0.47725
+# $
+# 
+# $
+# n=1,000\\
+# p=0.47725\\
+# n*p=477.25\\
+# $
+
+# (b) If 60 is the lowest passing score, how many batteries are expected to pass the quality control check?  
+# $ P(x \ge 60)= 1 - P(x<60) $  
+# $
+# X \sim \operatorname{Normal}(\mu = 75, \sigma = 15) \\
+# $
+# $
+# p = \Pr(X > 60) = \Pr\left[\frac{X - \mu}{\sigma} < \frac{60 - 75}{15} \right] = \Pr(Z > -1) \approx 0.84134,\\
+# $
+# 0.84134 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)  
+# $
+# n=1,000\\
+# p=0.84134\\
+# n*p=841.34\\
+# $
+
+# 8. The length of time the batteries are on the supermarket shelf before being sold is a mean of 12 days and a standard deviation of 3 days.  It can be assumed that the number of days on the shelf follows a normal distribution.  Answer the following questions, explain your workings for each.<br>
 # a)	About what percent of the batteries remain on the shelf between 9 and 15 days?<br>
 # b)	About what percent of the batteries remain on the shelf last between 12 and 15 days?<br>
 # c)	About what percent of the batteries remain on the shelf last 6 days or less?<br>
 # d)	About what percent of the batteries remain on the shelf last 15 or more days?<br>
 # ####  <div style="text-align: right"> (10 marks) </div><br>
+
+# (d) About what percent of the batteries remain on the shelf last 15 or more days?  
+# $
+# X \sim \operatorname{Normal}(\mu = 12, \sigma = 3) \\
+# $
+# $
+# p = \Pr(X > 15) = \Pr\left[\frac{X - \mu}{\sigma} > \frac{15 - 12}{3} \right] = \Pr(Z > 1) = 0.15866,\\
+# $
+# 0.15866 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)  
+# 
+# 
+# 15.866%
 
 # 9. An online shopping store maintains the shopping history of users so that future predictions can be made about which products will appeal to which type of customer.  <br>
 # The following baskets are noted. <br>
