@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from statistics import NormalDist
+
+
 # <!--
 # import data_analytics.github as github
 # print(github.create_jupyter_notebook_header("mrzakiakkari", "data-mining-algorithms", "assessment-3-data-mining-algorithms-and-stats.ipynb", "master"))
@@ -195,6 +198,7 @@ print("rmse: ",rmse)
 # 4. What are dummy variables, what is the Dummy Variable Trap and how can we overcome it?<div style="text-align: right"> (5 marks) </div>
 
 # put answer in here...
+# 
 # A dummy variable is a variable that takes values of 0 and 1, where the values indicate the presence or absence of something (e.g., a 0 may indicate a placebo and 1 may indicate a drug). The Dummy Variable trap is a scenario in which the independent variables are multicollinear - a scenario in which two or more variables are highly correlated; in simple terms one variable can be predicted from the others. To overcome the Dummy variable Trap, we drop one of the columns created when the categorical variables were converted to dummy variables by one-hot encoding. This can be done because the dummy variables include redundant information.
 
 # 5. With regard to a linear regression model explain the meaning and importance of : <br>
@@ -213,33 +217,31 @@ print("rmse: ",rmse)
 # 
 
 # 6. The mean life of a battery is 50 hours with a standard deviation of 6 hours. The mean life of batteries follow a normal distribution.  The manufacturer advertises that they will replace all batteries that last less than 38 hours. If 100,000 batteries were produced, how many would they expect to replace?  In your answer explain your workings 
-# ####  <div style="text-align: right"> (5 marks) </div><br><br>
+# <div style="text-align: right"> (5 marks) </div>
 
 # $
 # X \sim \operatorname{Normal}(\mu = 50, \sigma = 6) \\
 # p = \Pr[X < 38] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{38 - 50}{6} \right] = \Pr[Z < -2] \approx 0.02275,\\
 # $
-# 0.02275 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)
-# 
+
+x = 38
+p = NormalDist(mu=50, sigma=6).cdf(x)
+print(f"P(X < {x}) = {p:.4}")
+n=100_000
+print(f"Answer:{(p*n):.0f}")
+
+
 # where Z∼Normal(0,1) is a standard normal random variable. This means any single battery has only about a 2.275% chance of not lasting more than 38 hours.
-# 
-# $
-# n=100,000\\
-# p=0.02275\\
-# n*p=2,275\\
-# $
 
-# 7. A quality control process uses a grading scale to grade the quality of the batteries.  1000 batteries are produced. It is assumed that the scores are normally distributed with a mean score of 75 and a standard deviation of 15
-# a)	How many batteries will have scores between 45 and 75?
-# b)  If 60 is the lowest passing score, how many batteries are expected to pass the quality control check?
+# 7. A quality control process uses a grading scale to grade the quality of the batteries.  1000 batteries are produced. It is assumed that the scores are normally distributed with a mean score of 75 and a standard deviation of 15.
 # In your answer, explain your workings.
-# ####  <div style="text-align: right"> (10 marks) </div><br><br>
-# 
 
-# (a)  
 # $
 # X \sim \operatorname{Normal}(\mu = 75, \sigma = 15) \\
 # $
+
+# a)	How many batteries will have scores between 45 and 75?
+
 # $
 # p = \Pr[X < 75] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{75 - 75}{15} \right] = \Pr[Z < 0] \approx 0.5,\\
 # $
@@ -259,11 +261,9 @@ print("rmse: ",rmse)
 # n*p=477.25\\
 # $
 
-# (b) If 60 is the lowest passing score, how many batteries are expected to pass the quality control check?  
+# b)  If 60 is the lowest passing score, how many batteries are expected to pass the quality control check?
+
 # $ P(x \ge 60)= 1 - P(x<60) $  
-# $
-# X \sim \operatorname{Normal}(\mu = 75, \sigma = 15) \\
-# $
 # $
 # p = \Pr(X > 60) = \Pr\left[\frac{X - \mu}{\sigma} < \frac{60 - 75}{15} \right] = \Pr(Z > -1) \approx 0.84134,\\
 # $
@@ -274,24 +274,87 @@ print("rmse: ",rmse)
 # n*p=841.34\\
 # $
 
-# 8. The length of time the batteries are on the supermarket shelf before being sold is a mean of 12 days and a standard deviation of 3 days.  It can be assumed that the number of days on the shelf follows a normal distribution.  Answer the following questions, explain your workings for each.<br>
-# a)	About what percent of the batteries remain on the shelf between 9 and 15 days?<br>
-# b)	About what percent of the batteries remain on the shelf last between 12 and 15 days?<br>
-# c)	About what percent of the batteries remain on the shelf last 6 days or less?<br>
-# d)	About what percent of the batteries remain on the shelf last 15 or more days?<br>
-# ####  <div style="text-align: right"> (10 marks) </div><br>
+# <div style="text-align: right"> (10 marks) </div><br><br>
 
-# (d) About what percent of the batteries remain on the shelf last 15 or more days?  
+# 8. The length of time the batteries are on the supermarket shelf before being sold is a mean of 12 days and a standard deviation of 3 days.  It can be assumed that the number of days on the shelf follows a normal distribution.  Answer the following questions, explain your workings for each.<br>
+
 # $
 # X \sim \operatorname{Normal}(\mu = 12, \sigma = 3) \\
 # $
+
+# (a) About what percent of the batteries remain on the shelf between 9 and 15 days?<br>
+
 # $
-# p = \Pr(X > 15) = \Pr\left[\frac{X - \mu}{\sigma} > \frac{15 - 12}{3} \right] = \Pr(Z > 1) = 0.15866,\\
+# p = \Pr[9 < X < 15] =  \Pr[X < 15] -  \Pr[X < 12] \\
 # $
-# 0.15866 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)  
-# 
-# 
-# 15.866%
+
+# $
+# \Pr[X < 15] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{15 - 12}{3} \right] = \Pr[Z < 1] \\
+# \Pr[X < 9] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{9 - 12}{3} \right] = \Pr[Z < -1] \\
+# $
+
+x1 = 15
+p1 = NormalDist(mu=12, sigma=3).cdf(x1)
+print(f"P(X < {x1}) = {p1:.4}")
+x2 = 9
+p2 = NormalDist(mu=12, sigma=3).cdf(x2)
+print(f"P(X < {x2}) = {p2:.4}")
+p = p1 - p2
+print(f"P({x2} < X < {x1}) = {p:.4}")
+print(f"Answer:{p:.2%}")
+
+
+# (b) About what percent of the batteries remain on the shelf last between 12 and 15 days?
+
+# $
+# p = \Pr[12 < X < 15] =  \Pr[X < 15] -  \Pr[X < 12] \\
+# $
+
+# $
+# \Pr[X < 15] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{15 - 12}{3} \right] = \Pr[Z < 1] \\
+# \Pr[X < 12] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{12 - 12}{3} \right] = \Pr[Z < 0] \\
+# $
+
+x1 = 15
+p1 = NormalDist(mu=12, sigma=3).cdf(x1)
+print(f"P(X < {x1}) = {p1:.4}")
+x2 = 12
+p2 = NormalDist(mu=12, sigma=3).cdf(x2)
+print(f"P(X < {x2}) = {p2:.4}")
+p = p1 - p2
+print(f"P({x2} < X < {x1}) = {p:.4}")
+print(f"Answer:{p:.2%}")
+
+
+# (c) About what percent of the batteries remain on the shelf last 6 days or less?
+
+# $
+# p = \Pr(X < 6) = \Pr\left[\frac{X - \mu}{\sigma} > \frac{6 - 12}{3} \right] = \Pr(Z > -2) \\
+# $
+
+x = 6
+p = NormalDist(mu=12, sigma=3).cdf(x)
+print(f"P(X < {x}) = {p:.4}")
+print(f"Answer:{p:.2%}")
+
+
+# (d) About what percent of the batteries remain on the shelf last 15 or more days?
+
+# $
+# p = \Pr(X > 15) = 1 - \Pr(X \le 15) 
+# $
+
+# $
+# \Pr(X > 15) = \Pr\left[\frac{X - \mu}{\sigma} > \frac{15 - 12}{3} \right] = \Pr(Z > 1)
+# $
+
+x = 15
+p = 1 - NormalDist(mu=12, sigma=3).cdf(x)
+print(f"P(X > {x}) = {p:.4}")
+print(f"Answer:{p:.2%}")
+
+
+#   <div style="text-align: right"> (10 marks) </div><br>
 
 # 9. An online shopping store maintains the shopping history of users so that future predictions can be made about which products will appeal to which type of customer.  <br>
 # The following baskets are noted. <br>
