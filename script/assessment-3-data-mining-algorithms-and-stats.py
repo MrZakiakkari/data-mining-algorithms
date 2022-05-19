@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from statistics import NormalDist
-
-
 # <!--
 # import data_analytics.github as github
 # print(github.create_jupyter_notebook_header("mrzakiakkari", "data-mining-algorithms", "assessment-3-data-mining-algorithms-and-stats.ipynb", "master"))
@@ -17,6 +14,7 @@ from statistics import NormalDist
 # Note the questions are allocated different weightings, these will be scaled to 100%.
 
 from pandas import DataFrame
+from statistics import NormalDist
 import seaborn
 import numpy as np
 import pandas as pd  # To read data
@@ -146,14 +144,12 @@ correlation_dataframe = correlation_dataframe.loc[~key.duplicated()]
 correlation_dataframe
 
 
-# #answer your question and give explanation in here
-# 
-# 
-
 # #### 2 Create a linear regression model predicting the price of a diamond using <b><u>ONE independent variable</b></u>.<br>
-# #### <div style="text-align: right"> (15 marks) </div><br>
+# <div style="text-align: right"> (15 marks) </div><br>
 # 
 # Price works with X, Y, Z and caret
+
+# <div style="color:red"># Finish</div>
 
 X = diamonds_dataframe[["x","y"]]#we will use RM - average number of rooms per dwelling
 y = diamonds_dataframe[["price"]]#we want to predict Y - Median value of owner-occupied 
@@ -183,9 +179,11 @@ print("rmse: ",rmse)
 
 
 # #### Test the different <i>quantitative</i> columns in order to identify which independent variable has the most predictive power for price.<br>
-# #### In a markdown cell, provide justification as to why you chose the variable<br>
+# In a markdown cell, provide justification as to why you chose the variable  
 # Remember to use a reasonable split on the data to create test and train subsets 
 
+# **Answer**
+# 
 # caret 
 # 
 # score: 0.8493313275232197  
@@ -201,15 +199,12 @@ print("rmse: ",rmse)
 # rmse:  1831.417285579254  
 # 
 
-
-
-
-
-
+# <div style="color:red">Finish</div>
 
 # #### 3 Create a linear regression model predicting the price of a diamond using <b><u>MULTIPLE independent variables</b></u>.
-# #### <div style="text-align: right"> (15 marks) </div><br>
-# 
+# <div style="text-align: right"> (15 marks) </div><br>
+
+# <div style="color:red">Finish</div>
 
 # ## Some theory<br>
 # #### Create a markdown cell under each of the following quesions, and put in your answer in there.
@@ -217,24 +212,25 @@ print("rmse: ",rmse)
 
 # 4. What are dummy variables, what is the Dummy Variable Trap and how can we overcome it?<div style="text-align: right"> (5 marks) </div>
 
-# put answer in here...
-# 
+# **Answer**  
 # A dummy variable is a variable that takes values of 0 and 1, where the values indicate the presence or absence of something (e.g., a 0 may indicate a placebo and 1 may indicate a drug). The Dummy Variable trap is a scenario in which the independent variables are multicollinear - a scenario in which two or more variables are highly correlated; in simple terms one variable can be predicted from the others. To overcome the Dummy variable Trap, we drop one of the columns created when the categorical variables were converted to dummy variables by one-hot encoding. This can be done because the dummy variables include redundant information.
 
 # 5. With regard to a linear regression model explain the meaning and importance of : <br>
 # R^2: 
-# R-squared is a goodness-of-fit measure for linear regression models. This statistic indicates the percentage of the variance in the dependent variable that the independent variables explain collectively. R-squared measures the strength of the relationship between your model and the dependent variable on a convenient 0 – 100% scale.
-# ####  <div style="text-align: right"> (5 marks) </div><br>
-# The coefficient (weight) associated with an independent variable:
-# The regular regression coefficients that you see in your statistical output describe the relationship between the independent variables and the dependent variable. The coefficient value represents the mean change of the dependent variable given a one-unit shift in an independent variable. Consequently, you might think you can use the absolute sizes of the coefficients to identify the most important variable. After all, a larger coefficient signifies a greater change in the mean of the independent variable.
-# ####  <div style="text-align: right"> (5 marks) </div><br>
-# The Intercept:
-# The intercept (often labeled as constant) is the point where the function crosses the y-axis. In some analysis, the regression model only becomes significant when we remove the intercept, and the regression line reduces to Y = bX + error.
-# ####  <div style="text-align: right"> (5 marks) </div><br>
-# root mean squared error:
-# Root Mean Square Error (RMSE) is the standard deviation of the residuals (prediction errors). Residuals are a measure of how far from the regression line data points are; RMSE is a measure of how spread out these residuals are. In other words, it tells you how concentrated the data is around the line of best fit. Root mean square error is commonly used in climatology, forecasting, and regression analysis to verify experimental results.
-# ####  <div style="text-align: right"> (5 marks) </div><br>
+# **Answer**:R-squared is a goodness-of-fit measure for linear regression models. This statistic indicates the percentage of the variance in the dependent variable that the independent variables explain collectively. R-squared measures the strength of the relationship between your model and the dependent variable on a convenient 0 – 100% scale.
+# <div style="text-align: right"> (5 marks) </div>  
+# The coefficient (weight) associated with an independent variable:  
 # 
+# **Answer** :The regular regression coefficients that you see in your statistical output describe the relationship between the independent variables and the dependent variable. The coefficient value represents the mean change of the dependent variable given a one-unit shift in an independent variable. Consequently, you might think you can use the absolute sizes of the coefficients to identify the most important variable. After all, a larger coefficient signifies a greater change in the mean of the independent variable.
+# <div style="text-align: right"> (5 marks) </div>  
+# The Intercept:
+# 
+# **Answer**:The intercept (often labeled as constant) is the point where the function crosses the y-axis. In some analysis, the regression model only becomes significant when we remove the intercept, and the regression line reduces to Y = bX + error.
+# <div style="text-align: right"> (5 marks) </div>  
+# root mean squared error:  
+# 
+# **Answer**:Root Mean Square Error (RMSE) is the standard deviation of the residuals (prediction errors). Residuals are a measure of how far from the regression line data points are; RMSE is a measure of how spread out these residuals are. In other words, it tells you how concentrated the data is around the line of best fit. Root mean square error is commonly used in climatology, forecasting, and regression analysis to verify experimental results.
+# <div style="text-align: right"> (5 marks) </div>
 
 # 6. The mean life of a battery is 50 hours with a standard deviation of 6 hours. The mean life of batteries follow a normal distribution.  The manufacturer advertises that they will replace all batteries that last less than 38 hours. If 100,000 batteries were produced, how many would they expect to replace?  In your answer explain your workings 
 # <div style="text-align: right"> (5 marks) </div>
