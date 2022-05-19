@@ -113,6 +113,24 @@ diamonds_dataframe.shape
 display_correlation_matrix_pyramid_heatmap(diamonds_dataframe[["carat", "depth", "table", "price", "x", "y", "z"]].corr());
 
 
+correlation_dataframe = diamonds_dataframe[["carat", "depth", "table", "price", "x", "y", "z"]].corr()
+correlation_dataframe = correlation_dataframe.unstack().reset_index()
+correlation_dataframe = correlation_dataframe.rename(
+    columns={
+    "level_0": "Varaible 1",
+    "level_1": "Varaible 2",
+    0: "Correlation"
+})
+correlation_dataframe 
+
+
+correlation_cutoff_value = .85
+correlation_dataframe = correlation_dataframe[(
+    correlation_dataframe['Correlation'] >= correlation_cutoff_value)]
+
+correlation_dataframe
+
+
 # <p class="Caption">Correlation Matrix Heat Map Pyramid</p>
 # 
 # #### Correlations suggesting investigation
