@@ -149,7 +149,7 @@ correlation_dataframe
 # 
 # Price works with X, Y, Z and caret
 
-# <div style="color:red"># Finish</div>
+# # <div style="color:red">Finish</div>
 
 X = diamonds_dataframe[["x","y"]]#we will use RM - average number of rooms per dwelling
 y = diamonds_dataframe[["price"]]#we want to predict Y - Median value of owner-occupied 
@@ -199,12 +199,12 @@ print("rmse: ",rmse)
 # rmse:  1831.417285579254  
 # 
 
-# <div style="color:red">Finish</div>
+# # <div style="color:red">Finish</div>
 
 # #### 3 Create a linear regression model predicting the price of a diamond using <b><u>MULTIPLE independent variables</b></u>.
 # <div style="text-align: right"> (15 marks) </div><br>
 
-# <div style="color:red">Finish</div>
+# # <div style="color:red">Finish</div>
 
 # ## Some theory<br>
 # #### Create a markdown cell under each of the following quesions, and put in your answer in there.
@@ -375,7 +375,7 @@ print(f"Answer:{p:.2%}")
 # 9. An online shopping store maintains the shopping history of users so that future predictions can be made about which products will appeal to which type of customer.  <br>
 # The following baskets are noted. <br>
 # 
-#             1 ABC
+#             1 ABC 
 #             2 ABCD
 #             3 BC
 #             4 ABD
@@ -388,18 +388,32 @@ print(f"Answer:{p:.2%}")
 #             
 # Calculate the Support and the Confidence, that a potential customer who adds A, and B to their shopping basket is likely to add product C.
 # In your answer, explain your workings.
-# ####  <div style="text-align: right"> (10 marks) </div><br>
+# <div style="text-align: right"> (10 marks) </div>
+
+# 10 Transactions  
+# Rule:A&B&rArr;C
 # 
-
-# 10. Which data algorithm would you choose for the following scenerios.  In your answer please explain your choice, as to why it is the most appropriate, in brief how the alogritm works, and what the expected outcomes would be. <br>
-# (a) the battery company you work for is considering opening a new manufacturing plant in Europe, and has come down to the two last choices - Ireland or Poland.  You have data such as the utility costs, employment rates, mean salary for the location, and grants avaiable for the Government, such as the IDA.  Which algorithm would you use to help you choose? <br>
-# (b) the software company you work for monitors users online time, access to the SaaS, number of purchases, length of time online, the number of sessions, length of session etc.  They are interested in predicting which users are likely to be retained and which are likely to churn.  What algorithm would help provide an insight to this problem? <br>
-# ####  <div style="text-align: right"> (20 marks) </div><br>
+# Support =frq(X, Y)/N   
 # 
+# Confidence = frq(X, Y)/frq(X)  
 # 
+# frq of A&B is 3  
+# frq of A&B&C is 2  
+# Support =frq(A&B, C)/N = 2/10 = 0.2    
+# Support =frq(A&B, C)/frq(A&B) = 2/3 = 0.67  
+
+# https://www.solver.com/xlminer/help/association-rules
+
+# 10. Which data algorithm would you choose for the following scenerios.  In your answer please explain your choice, as to why it is the most appropriate, in brief how the alogritm works, and what the expected outcomes would be.
+
+# (a) the battery company you work for is considering opening a new manufacturing plant in Europe, and has come down to the two last choices - Ireland or Poland.  You have data such as the utility costs, employment rates, mean salary for the location, and grants available for the Government, such as the IDA.  Which algorithm would you use to help you choose?
 
 
 
 
+# (b) the software company you work for monitors users online time, access to the SaaS, number of purchases, length of time online, the number of sessions, length of session etc.  They are interested in predicting which users are likely to be retained and which are likely to churn.  What algorithm would help provide an insight to this problem?  
 
 
+
+
+# <div style="text-align: right"> (20 marks) </div><br>
