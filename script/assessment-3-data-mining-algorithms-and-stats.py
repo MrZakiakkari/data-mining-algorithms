@@ -113,6 +113,8 @@ diamonds_dataframe.shape
 display_correlation_matrix_pyramid_heatmap(diamonds_dataframe[["carat", "depth", "table", "price", "x", "y", "z"]].corr());
 
 
+# <p class="Caption">Correlation Matrix Heat Map Pyramid</p>
+
 correlation_dataframe = diamonds_dataframe[["carat", "depth", "table", "price", "x", "y", "z"]].corr()
 correlation_dataframe = correlation_dataframe.unstack().reset_index()
 correlation_dataframe = correlation_dataframe.rename(
@@ -121,27 +123,27 @@ correlation_dataframe = correlation_dataframe.rename(
     "level_1": "Varaible 2",
     0: "Correlation"
 })
-correlation_dataframe 
-
 
 correlation_cutoff_value = .85
+
 correlation_dataframe = correlation_dataframe[(
     correlation_dataframe['Correlation'] >= correlation_cutoff_value)]
 
-correlation_dataframe
+#HACK!
+correlation_dataframe = correlation_dataframe[(
+    correlation_dataframe['Correlation'] != 1)]
+#HACK!
 
 
-# <p class="Caption">Correlation Matrix Heat Map Pyramid</p>
-# 
+key = correlation_dataframe[['Varaible 1','Varaible 2']].apply(lambda x: tuple(sorted(x)), axis='columns')
+
+correlation_dataframe = correlation_dataframe.loc[~key.duplicated()]
+
+
 # #### Correlations suggesting investigation
 # Consider correlation Threshold &GreaterEqual; 0.85.  
-# 
-# Feature one  | Feature two |  Correlation size
-# :-|:-|-
-# Caret | Price | 0.92
-# Caret | X | 0.98
 
-
+correlation_dataframe
 
 
 # #answer your question and give explanation in here
