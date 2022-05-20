@@ -149,6 +149,9 @@ correlation_dataframe
 # 
 # Price works with X, Y, Z and caret
 
+sns.lmplot(x ='carat', y ='price', data = diamonds_dataframe)
+
+
 # # <div style="color:red">Finish</div>
 
 X = diamonds_dataframe[["x","y"]]#we will use RM - average number of rooms per dwelling
@@ -179,10 +182,10 @@ print("rmse: ",rmse)
 
 
 # #### Test the different <i>quantitative</i> columns in order to identify which independent variable has the most predictive power for price.<br>
-# In a markdown cell, provide justification as to why you chose the variable  
+# #### In a markdown cell provide justification as to why you chose the variable<br>
 # Remember to use a reasonable split on the data to create test and train subsets 
 
-# **Answer**
+# 
 # 
 # caret 
 # 
@@ -198,6 +201,115 @@ print("rmse: ",rmse)
 # intercept_: [-14211.73813022]  
 # rmse:  1831.417285579254  
 # 
+
+
+X = diamonds_dataframe[["price"]]#we will use RM - average number of rooms per dwelling
+y = diamonds_dataframe[["carat"]]#we want to predict Y - Median value of owner-occupied 
+
+
+#Create training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+
+#Create the regressor: reg
+reg = LinearRegression()
+
+#Fit the regressor to the training data
+reg.fit(X_train, y_train)
+
+# Predict on the test data: y_pred
+y_pred = reg.predict(X_test)
+
+# Compute and print RMSE between our predicted MEDV and actual MEDV
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+
+
+
+print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
+print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
+print("intercept_:",reg.intercept_)
+print("rmse: ",rmse)
+
+
+X = diamonds_dataframe[["price"]]#we will use RM - average number of rooms per dwelling
+y = diamonds_dataframe[["x"]]#we want to predict Y - Median value of owner-occupied 
+
+
+#Create training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+
+#Create the regressor: reg
+reg = LinearRegression()
+
+#Fit the regressor to the training data
+reg.fit(X_train, y_train)
+
+# Predict on the test data: y_pred
+y_pred = reg.predict(X_test)
+
+# Compute and print RMSE between our predicted MEDV and actual MEDV
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+
+
+
+print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
+print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
+print("intercept_:",reg.intercept_)
+print("rmse: ",rmse)
+
+
+X = diamonds_dataframe[["price"]]#we will use RM - average number of rooms per dwelling
+y = diamonds_dataframe[["y"]]#we want to predict Y - Median value of owner-occupied 
+
+
+#Create training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+
+#Create the regressor: reg
+reg = LinearRegression()
+
+#Fit the regressor to the training data
+reg.fit(X_train, y_train)
+
+# Predict on the test data: y_pred
+y_pred = reg.predict(X_test)
+
+# Compute and print RMSE between our predicted MEDV and actual MEDV
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+
+
+
+print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
+print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
+print("intercept_:",reg.intercept_)
+print("rmse: ",rmse)
+
+
+X = diamonds_dataframe[["price"]]#we will use RM - average number of rooms per dwelling
+y = diamonds_dataframe[["z"]]#we want to predict Y - Median value of owner-occupied 
+
+
+#Create training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+
+#Create the regressor: reg
+reg = LinearRegression()
+
+#Fit the regressor to the training data
+reg.fit(X_train, y_train)
+
+# Predict on the test data: y_pred
+y_pred = reg.predict(X_test)
+
+# Compute and print RMSE between our predicted MEDV and actual MEDV
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+
+
+
+print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
+print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
+print("intercept_:",reg.intercept_)
+print("rmse: ",rmse)
+
 
 # # <div style="color:red">Finish</div>
 
@@ -232,7 +344,7 @@ print("rmse: ",rmse)
 # **Answer**:Root Mean Square Error (RMSE) is the standard deviation of the residuals (prediction errors). Residuals are a measure of how far from the regression line data points are; RMSE is a measure of how spread out these residuals are. In other words, it tells you how concentrated the data is around the line of best fit. Root mean square error is commonly used in climatology, forecasting, and regression analysis to verify experimental results.
 # <div style="text-align: right"> (5 marks) </div>
 
-# 6. The mean life of a battery is 50 hours with a standard deviation of 6 hours. The mean life of batteries follow a normal distribution.  The manufacturer advertises that they will replace all batteries that last less than 38 hours. If 100,000 batteries were produced, how many would they expect to replace?  In your answer explain your workings 
+# Q6 The mean life of a battery is 50 hours with a standard deviation of 6 hours. The mean life of batteries follow a normal distribution.  The manufacturer advertises that they will replace all batteries that last less than 38 hours. If 100,000 batteries were produced, how many would they expect to replace?  In your answer explain your workings 
 # <div style="text-align: right"> (5 marks) </div>
 
 # $
@@ -240,9 +352,12 @@ print("rmse: ",rmse)
 # p = \Pr[X < 38] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{38 - 50}{6} \right] = \Pr[Z < -2] \approx 0.02275,\\
 # $
 
+from statistics import NormalDist
+
 x = 38
 p = NormalDist(mu=50, sigma=6).cdf(x)
 print(f"P(X < {x}) = {p:.4}")
+
 n=100_000
 print(f"Answer:{(p*n):.0f}")
 
@@ -261,21 +376,22 @@ print(f"Answer:{(p*n):.0f}")
 # $
 # p = \Pr[X < 75] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{75 - 75}{15} \right] = \Pr[Z < 0] \approx 0.5,\\
 # $
-# 0.5 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)  
+# 
 # $
 # p = \Pr[X < 45] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{45 - 75}{15} \right] = \Pr[Z < -2] \approx 0.02275,\\
 # $
-# 0.02275 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)  
-# $
-# p = \Pr[45 < X < 75] =  \Pr[X < 75] -  \Pr[X < 45]\\
-# p = \Pr[45 < X < 75] = 0.5 - 0.02275 = 0.47725
-# $
 # 
-# $
-# n=1,000\\
-# p=0.47725\\
-# n*p=477.25\\
-# $
+
+x1 = 75
+p1 = NormalDist(mu=75, sigma=15).cdf(x1)
+print(f"P(X < {x1}) = {p1:.4}")
+x2 = 45
+p2 = NormalDist(mu=75, sigma=15).cdf(x2)
+print(f"P(X < {x2}) = {p2:.4}")
+p = p1 - p2
+print(f"P({x2} < X < {x1}) = {p:.4}")
+print(f"Answer:{p*1000}")
+
 
 # b)  If 60 is the lowest passing score, how many batteries are expected to pass the quality control check?
 
@@ -283,12 +399,14 @@ print(f"Answer:{(p*n):.0f}")
 # $
 # p = \Pr(X > 60) = \Pr\left[\frac{X - \mu}{\sigma} < \frac{60 - 75}{15} \right] = \Pr(Z > -1) \approx 0.84134,\\
 # $
-# 0.84134 calculated using the [Normal Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html)  
-# $
-# n=1,000\\
-# p=0.84134\\
-# n*p=841.34\\
-# $
+
+x = 60
+p = 1 - NormalDist(mu=75, sigma=15).cdf(x)
+print(f"P(X > {x}) = {p:.4}")
+print(f"Answer:{p*1000}")
+
+
+# # <div style="color:red">Finish</div>
 
 # <div style="text-align: right"> (10 marks) </div><br><br>
 
