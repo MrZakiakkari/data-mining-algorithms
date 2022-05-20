@@ -27,7 +27,6 @@ from sklearn.model_selection import cross_val_score
 
 
 diamonds_dataframe: DataFrame = seaborn.load_dataset("diamonds")
-
 diamonds_dataframe.columns
 
 
@@ -62,24 +61,23 @@ diamonds_dataframe.columns
 # #### table 
 # width of top of diamond relative to widest point (43--95)<br>
 
-# #### 1. In the diamonds data set identify quantitative variables that have  linear relationships
-# <div style="text-align: right"> (5 marks) </div><br>
+# **Q1.** In the diamonds data set identify quantitative variables that have  linear relationships
+# <div style="text-align: right"> (5 marks) </div>
 
-# ## Exploratory Data Analysis
+# Exploratory Data Analysis
 
 diamonds_dataframe.head()
 
 
-diamonds_dataframe.info()
 diamonds_dataframe.shape
+
+
 diamonds_dataframe.describe()
 
 
-# Points to notice:
+# **Points to notice:**
 # 
 # Min value of "x", "y", "z" are zero this indicates that there are faulty values in data that represents dimensionless or 2-dimensional diamonds. So we need to filter out those as it clearly faulty data points.
-# 
-# 
 
 invalid_diamonds_dataframe = diamonds_dataframe[(diamonds_dataframe["x"]==0) |
                    (diamonds_dataframe["y"]==0) |
@@ -92,28 +90,16 @@ del invalid_diamonds_dataframe
 diamonds_dataframe.shape
 
 
-# #### Interpretation of correlation coefficient
-# 
-# Correlation size | Interpretation
-# -|-
-# &plusmn; 1.00 to 1.00 | Perfect correlation
-# &plusmn; 0.90 to 0.99 | Very high correlation
-# &plusmn; 0.70 to 0.90 | High correlation
-# &plusmn; 0.50 to 0.70 | Moderate correlation
-# &plusmn; 0.30 to 0.50 | Low correlation
-# &plusmn; 0.00 to 0.30 | Negligible correlation
-# 
-# <p class="Caption">Correlation Interpretation Table</p>
-# 
-# This table suggests the interpretation of correlation size at different absolute values. These cut-offs are arbitrary and should be used judiciously while interpreting the dataset.
-# 
+correlation_dataframe = diamonds_dataframe[["carat", "depth", "table", "price", "x", "y", "z"]].corr()
 
-display_correlation_matrix_pyramid_heatmap(diamonds_dataframe[["carat", "depth", "table", "price", "x", "y", "z"]].corr());
+
+display_correlation_matrix_pyramid_heatmap(correlation_dataframe);
 
 
 # <p class="Caption">Correlation Matrix Heat Map Pyramid</p>
 
-correlation_dataframe = diamonds_dataframe[["carat", "depth", "table", "price", "x", "y", "z"]].corr()
+# Consider correlation Threshold &GreaterEqual; 0.85.  
+
 correlation_dataframe = correlation_dataframe.unstack().reset_index()
 correlation_dataframe = correlation_dataframe.rename(
     columns={
@@ -138,196 +124,69 @@ key = correlation_dataframe[['Varaible 1','Varaible 2']].apply(lambda x: tuple(s
 correlation_dataframe = correlation_dataframe.loc[~key.duplicated()]
 
 
-# #### Correlations suggesting investigation
-# Consider correlation Threshold &GreaterEqual; 0.85.  
+# **quantitative variables that have  linear relationships**
 
 correlation_dataframe
 
 
-# #### 2 Create a linear regression model predicting the price of a diamond using <b><u>ONE independent variable</b></u>.<br>
-# <div style="text-align: right"> (15 marks) </div><br>
+# **Q2.** Create a linear regression model predicting the price of a diamond using <b><u>ONE independent variable</u></b>.
+# <div style="text-align: right"> (15 marks) </div>
 # 
-# Price works with X, Y, Z and caret
+# Price correlates with x, y, z and caret
 
-sns.lmplot(x ='carat', y ='price', data = diamonds_dataframe)
+def run_linear_regression(dataframe: DataFrame, x_columns: list, y_column: list):
+    X = dataframe[x_columns]
+    y = dataframe[y_column]
 
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-# # <div style="color:red">Finish</div>
+    reg = LinearRegression()
 
-X = diamonds_dataframe[["x","y"]]#we will use RM - average number of rooms per dwelling
-y = diamonds_dataframe[["price"]]#we want to predict Y - Median value of owner-occupied 
+    reg.fit(X_train, y_train)
 
+    y_pred = reg.predict(X_test)
 
-#Create training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+    print(x_columns, "=>", y_column[0])
 
-#Create the regressor: reg
-reg = LinearRegression()
-
-#Fit the regressor to the training data
-reg.fit(X_train, y_train)
-
-# Predict on the test data: y_pred
-y_pred = reg.predict(X_test)
-
-# Compute and print RMSE between our predicted MEDV and actual MEDV
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+    print(f"score:      {reg.score(X, y):.4f}")  #Return the coefficient of determination of the prediction.
+    print("coef_:      ", reg.coef_)  #Estimated coefficients for the linear regression problem.
+    print("intercept_: ", reg.intercept_)
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+    print("rmse:       ", rmse)
+    return reg
 
 
-
-print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
-print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
-print("intercept_:",reg.intercept_)
-print("rmse: ",rmse)
+run_linear_regression(diamonds_dataframe,["carat"], ["price"])
 
 
-# #### Test the different <i>quantitative</i> columns in order to identify which independent variable has the most predictive power for price.<br>
-# #### In a markdown cell provide justification as to why you chose the variable<br>
+# #### Test the different <i>quantitative</i> columns in order to identify which independent variable has the most predictive power for price.  
+# In a markdown cell provide justification as to why you chose the variable  
 # Remember to use a reasonable split on the data to create test and train subsets 
 
-# 
-# 
-# caret 
-# 
-# score: 0.8493313275232197  
-# coef_: [[7761.92989215]]    
-# intercept_: [-2261.72208262]  
-# rmse:  1582.3550379033259  
-# 
-# x
-# 
-# score: 0.7871769599303438  
-# coef_: [[3165.68767825]]  
-# intercept_: [-14211.73813022]  
-# rmse:  1831.417285579254  
-# 
+run_linear_regression(diamonds_dataframe,["carat"], ["price"])
+run_linear_regression(diamonds_dataframe,["x"], ["price"])
+run_linear_regression(diamonds_dataframe,["y"], ["price"])
+run_linear_regression(diamonds_dataframe,["z"], ["price"])
 
 
-X = diamonds_dataframe[["price"]]#we will use RM - average number of rooms per dwelling
-y = diamonds_dataframe[["carat"]]#we want to predict Y - Median value of owner-occupied 
+# The carat has the most predictive power based on the highest predictive score of 0.8493.
+
+# **Q3.** Create a linear regression model predicting the price of a diamond using <b><u>MULTIPLE independent variables</u></b>.
+# <div style="text-align: right"> (15 marks) </div>
+
+run_linear_regression(diamonds_dataframe,["carat", "x", "y", "z"], ["price"])
 
 
-#Create training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+# # Some theory
+# Create a markdown cell under each of the following quesions, and put in your answer in there.
 
-#Create the regressor: reg
-reg = LinearRegression()
-
-#Fit the regressor to the training data
-reg.fit(X_train, y_train)
-
-# Predict on the test data: y_pred
-y_pred = reg.predict(X_test)
-
-# Compute and print RMSE between our predicted MEDV and actual MEDV
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-
-
-
-print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
-print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
-print("intercept_:",reg.intercept_)
-print("rmse: ",rmse)
-
-
-X = diamonds_dataframe[["price"]]#we will use RM - average number of rooms per dwelling
-y = diamonds_dataframe[["x"]]#we want to predict Y - Median value of owner-occupied 
-
-
-#Create training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
-
-#Create the regressor: reg
-reg = LinearRegression()
-
-#Fit the regressor to the training data
-reg.fit(X_train, y_train)
-
-# Predict on the test data: y_pred
-y_pred = reg.predict(X_test)
-
-# Compute and print RMSE between our predicted MEDV and actual MEDV
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-
-
-
-print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
-print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
-print("intercept_:",reg.intercept_)
-print("rmse: ",rmse)
-
-
-X = diamonds_dataframe[["price"]]#we will use RM - average number of rooms per dwelling
-y = diamonds_dataframe[["y"]]#we want to predict Y - Median value of owner-occupied 
-
-
-#Create training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
-
-#Create the regressor: reg
-reg = LinearRegression()
-
-#Fit the regressor to the training data
-reg.fit(X_train, y_train)
-
-# Predict on the test data: y_pred
-y_pred = reg.predict(X_test)
-
-# Compute and print RMSE between our predicted MEDV and actual MEDV
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-
-
-
-print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
-print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
-print("intercept_:",reg.intercept_)
-print("rmse: ",rmse)
-
-
-X = diamonds_dataframe[["price"]]#we will use RM - average number of rooms per dwelling
-y = diamonds_dataframe[["z"]]#we want to predict Y - Median value of owner-occupied 
-
-
-#Create training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
-
-#Create the regressor: reg
-reg = LinearRegression()
-
-#Fit the regressor to the training data
-reg.fit(X_train, y_train)
-
-# Predict on the test data: y_pred
-y_pred = reg.predict(X_test)
-
-# Compute and print RMSE between our predicted MEDV and actual MEDV
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-
-
-
-print("score:",reg.score(X, y)) #Return the coefficient of determination of the prediction.
-print("coef_:",reg.coef_)#Estimated coefficients for the linear regression problem. 
-print("intercept_:",reg.intercept_)
-print("rmse: ",rmse)
-
-
-# # <div style="color:red">Finish</div>
-
-# #### 3 Create a linear regression model predicting the price of a diamond using <b><u>MULTIPLE independent variables</b></u>.
-# <div style="text-align: right"> (15 marks) </div><br>
-
-# # <div style="color:red">Finish</div>
-
-# ## Some theory<br>
-# #### Create a markdown cell under each of the following quesions, and put in your answer in there.
-# 
-
-# 4. What are dummy variables, what is the Dummy Variable Trap and how can we overcome it?<div style="text-align: right"> (5 marks) </div>
+# **Q4.**. What are dummy variables, what is the Dummy Variable Trap and how can we overcome it?<div style="text-align: right"> (5 marks) </div>
 
 # **Answer**  
 # A dummy variable is a variable that takes values of 0 and 1, where the values indicate the presence or absence of something (e.g., a 0 may indicate a placebo and 1 may indicate a drug). The Dummy Variable trap is a scenario in which the independent variables are multicollinear - a scenario in which two or more variables are highly correlated; in simple terms one variable can be predicted from the others. To overcome the Dummy variable Trap, we drop one of the columns created when the categorical variables were converted to dummy variables by one-hot encoding. This can be done because the dummy variables include redundant information.
 
-# 5. With regard to a linear regression model explain the meaning and importance of : <br>
+# **Q5.** With regard to a linear regression model explain the meaning and importance of :  
+# 
 # R^2: 
 # **Answer**:R-squared is a goodness-of-fit measure for linear regression models. This statistic indicates the percentage of the variance in the dependent variable that the independent variables explain collectively. R-squared measures the strength of the relationship between your model and the dependent variable on a convenient 0 – 100% scale.
 # <div style="text-align: right"> (5 marks) </div>  
@@ -344,12 +203,12 @@ print("rmse: ",rmse)
 # **Answer**:Root Mean Square Error (RMSE) is the standard deviation of the residuals (prediction errors). Residuals are a measure of how far from the regression line data points are; RMSE is a measure of how spread out these residuals are. In other words, it tells you how concentrated the data is around the line of best fit. Root mean square error is commonly used in climatology, forecasting, and regression analysis to verify experimental results.
 # <div style="text-align: right"> (5 marks) </div>
 
-# Q6 The mean life of a battery is 50 hours with a standard deviation of 6 hours. The mean life of batteries follow a normal distribution.  The manufacturer advertises that they will replace all batteries that last less than 38 hours. If 100,000 batteries were produced, how many would they expect to replace?  In your answer explain your workings 
+# **Q6.** The mean life of a battery is 50 hours with a standard deviation of 6 hours. The mean life of batteries follow a normal distribution.  The manufacturer advertises that they will replace all batteries that last less than 38 hours. If 100,000 batteries were produced, how many would they expect to replace?  In your answer explain your workings 
 # <div style="text-align: right"> (5 marks) </div>
 
 # $
 # X \sim \operatorname{Normal}(\mu = 50, \sigma = 6) \\
-# p = \Pr[X < 38] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{38 - 50}{6} \right] = \Pr[Z < -2] \approx 0.02275,\\
+# p = P(X < 38) = P\left(\frac{X - \mu}{\sigma} < \frac{38 - 50}{6} \right) = P(Z < -2) \approx 0.02275,\\
 # $
 
 from statistics import NormalDist
@@ -364,7 +223,7 @@ print(f"Answer:{(p*n):.0f}")
 
 # where Z∼Normal(0,1) is a standard normal random variable. This means any single battery has only about a 2.275% chance of not lasting more than 38 hours.
 
-# 7. A quality control process uses a grading scale to grade the quality of the batteries.  1000 batteries are produced. It is assumed that the scores are normally distributed with a mean score of 75 and a standard deviation of 15.
+# **Q 7.** A quality control process uses a grading scale to grade the quality of the batteries.  1000 batteries are produced. It is assumed that the scores are normally distributed with a mean score of 75 and a standard deviation of 15.
 # In your answer, explain your workings.
 
 # $
@@ -374,13 +233,16 @@ print(f"Answer:{(p*n):.0f}")
 # a)	How many batteries will have scores between 45 and 75?
 
 # $
-# p = \Pr[X < 75] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{75 - 75}{15} \right] = \Pr[Z < 0] \approx 0.5,\\
+# p = P(X < 75) = P\left(\frac{X - \mu}{\sigma} < \frac{75 - 75}{15} \right) = P(Z < 0) \approx 0.5,\\
 # $
 # 
 # $
-# p = \Pr[X < 45] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{45 - 75}{15} \right] = \Pr[Z < -2] \approx 0.02275,\\
+# p = P(X < 45) = P\left(\frac{X - \mu}{\sigma} < \frac{45 - 75}{15} \right) = P(Z < -2) \approx 0.02275,\\
 # $
 # 
+
+number_of_batteries = 1_000
+
 
 x1 = 75
 p1 = NormalDist(mu=75, sigma=15).cdf(x1)
@@ -390,41 +252,36 @@ p2 = NormalDist(mu=75, sigma=15).cdf(x2)
 print(f"P(X < {x2}) = {p2:.4}")
 p = p1 - p2
 print(f"P({x2} < X < {x1}) = {p:.4}")
-print(f"Answer:{p*1000}")
+print(f"Answer:{p * number_of_batteries:.0f}")
 
 
 # b)  If 60 is the lowest passing score, how many batteries are expected to pass the quality control check?
 
-# $ P(x \ge 60)= 1 - P(x<60) $  
-# $
-# p = \Pr(X > 60) = \Pr\left[\frac{X - \mu}{\sigma} < \frac{60 - 75}{15} \right] = \Pr(Z > -1) \approx 0.84134,\\
-# $
+# $ P(x \ge 60)= 1 - P(x<60) $
+
+# $ P(X \ge 60) = P\left(\frac{X - \mu}{\sigma} \ge \frac{60 - 75}{15} \right) = P(Z \ge -1) \approx 0.84134 $
 
 x = 60
 p = 1 - NormalDist(mu=75, sigma=15).cdf(x)
 print(f"P(X > {x}) = {p:.4}")
-print(f"Answer:{p*1000}")
+print(f"Answer:{p * number_of_batteries:.0f}")
 
 
-# # <div style="color:red">Finish</div>
+# <div style="text-align: right"> (10 marks) </div>
 
-# <div style="text-align: right"> (10 marks) </div><br><br>
-
-# 8. The length of time the batteries are on the supermarket shelf before being sold is a mean of 12 days and a standard deviation of 3 days.  It can be assumed that the number of days on the shelf follows a normal distribution.  Answer the following questions, explain your workings for each.<br>
+# **Q8.** The length of time the batteries are on the supermarket shelf before being sold is a mean of 12 days and a standard deviation of 3 days.  It can be assumed that the number of days on the shelf follows a normal distribution.  Answer the following questions, explain your workings for each.<br>
 
 # $
 # X \sim \operatorname{Normal}(\mu = 12, \sigma = 3) \\
 # $
 
-# (a) About what percent of the batteries remain on the shelf between 9 and 15 days?<br>
+# **(a)** About what percent of the batteries remain on the shelf between 9 and 15 days?<br>
+
+# $ P(9 < X < 15) =  P(X < 15) -  P(X < 9) $
 
 # $
-# p = \Pr[9 < X < 15] =  \Pr[X < 15] -  \Pr[X < 12] \\
-# $
-
-# $
-# \Pr[X < 15] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{15 - 12}{3} \right] = \Pr[Z < 1] \\
-# \Pr[X < 9] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{9 - 12}{3} \right] = \Pr[Z < -1] \\
+# P(X < 15) = P\left(\frac{X - \mu}{\sigma} < \frac{15 - 12}{3} \right) = P(Z < 1) \\
+# P(X < 9) = P\left(\frac{X - \mu}{\sigma} < \frac{9 - 12}{3} \right) = P(Z < -1) \\
 # $
 
 x1 = 15
@@ -438,15 +295,13 @@ print(f"P({x2} < X < {x1}) = {p:.4}")
 print(f"Answer:{p:.2%}")
 
 
-# (b) About what percent of the batteries remain on the shelf last between 12 and 15 days?
+# **(b)** About what percent of the batteries remain on the shelf last between 12 and 15 days?
+
+# $ P(12 < X < 15) =  P(X < 15) -  P(X < 12) $
 
 # $
-# p = \Pr[12 < X < 15] =  \Pr[X < 15] -  \Pr[X < 12] \\
-# $
-
-# $
-# \Pr[X < 15] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{15 - 12}{3} \right] = \Pr[Z < 1] \\
-# \Pr[X < 12] = \Pr\left[\frac{X - \mu}{\sigma} < \frac{12 - 12}{3} \right] = \Pr[Z < 0] \\
+# P(X < 15) = P\left(\frac{X - \mu}{\sigma} < \frac{15 - 12}{3} \right) = P(Z < 1) \\
+# P(X < 12) = P\left(\frac{X - \mu}{\sigma} < \frac{12 - 12}{3} \right) = P(Z < 0) \\
 # $
 
 x1 = 15
@@ -460,10 +315,10 @@ print(f"P({x2} < X < {x1}) = {p:.4}")
 print(f"Answer:{p:.2%}")
 
 
-# (c) About what percent of the batteries remain on the shelf last 6 days or less?
+# **(c)** About what percent of the batteries remain on the shelf last 6 days or less?
 
 # $
-# p = \Pr(X < 6) = \Pr\left[\frac{X - \mu}{\sigma} > \frac{6 - 12}{3} \right] = \Pr(Z > -2) \\
+# p = P(X < 6) = P\left(\frac{X - \mu}{\sigma} > \frac{6 - 12}{3} \right) = P(Z > -2) \\
 # $
 
 x = 6
@@ -472,14 +327,12 @@ print(f"P(X < {x}) = {p:.4}")
 print(f"Answer:{p:.2%}")
 
 
-# (d) About what percent of the batteries remain on the shelf last 15 or more days?
+# **(d)** About what percent of the batteries remain on the shelf last 15 or more days?
+
+# $ P(X \ge 15) = 1 - P(X < 15) $
 
 # $
-# p = \Pr(X > 15) = 1 - \Pr(X \le 15) 
-# $
-
-# $
-# \Pr(X > 15) = \Pr\left[\frac{X - \mu}{\sigma} > \frac{15 - 12}{3} \right] = \Pr(Z > 1)
+# P(X \ge 15) = P\left(\frac{X - \mu}{\sigma} \ge \frac{15 - 12}{3} \right) = P(Z \ge 1)
 # $
 
 x = 15
@@ -488,9 +341,9 @@ print(f"P(X > {x}) = {p:.4}")
 print(f"Answer:{p:.2%}")
 
 
-#   <div style="text-align: right"> (10 marks) </div><br>
+# <div style="text-align: right"> (10 marks) </div>
 
-# 9. An online shopping store maintains the shopping history of users so that future predictions can be made about which products will appeal to which type of customer.  <br>
+# **Q 9.** An online shopping store maintains the shopping history of users so that future predictions can be made about which products will appeal to which type of customer.  <br>
 # The following baskets are noted. <br>
 # 
 #             1 ABC 
@@ -508,7 +361,8 @@ print(f"Answer:{p:.2%}")
 # In your answer, explain your workings.
 # <div style="text-align: right"> (10 marks) </div>
 
-# 10 Transactions  
+# **Answer**  
+# Transactions number: 10
 # Rule:A&B&rArr;C
 # 
 # Support =frq(X, Y)/N   
@@ -520,18 +374,14 @@ print(f"Answer:{p:.2%}")
 # Support =frq(A&B, C)/N = 2/10 = 0.2    
 # Support =frq(A&B, C)/frq(A&B) = 2/3 = 0.67  
 
-# https://www.solver.com/xlminer/help/association-rules
-
-# 10. Which data algorithm would you choose for the following scenerios.  In your answer please explain your choice, as to why it is the most appropriate, in brief how the alogritm works, and what the expected outcomes would be.
+# **10.** Which data algorithm would you choose for the following scenerios.  In your answer please explain your choice, as to why it is the most appropriate, in brief how the alogritm works, and what the expected outcomes would be.
 
 # (a) the battery company you work for is considering opening a new manufacturing plant in Europe, and has come down to the two last choices - Ireland or Poland.  You have data such as the utility costs, employment rates, mean salary for the location, and grants available for the Government, such as the IDA.  Which algorithm would you use to help you choose?
 
-
-
+# # <span style="color:red">Finish</span>
 
 # (b) the software company you work for monitors users online time, access to the SaaS, number of purchases, length of time online, the number of sessions, length of session etc.  They are interested in predicting which users are likely to be retained and which are likely to churn.  What algorithm would help provide an insight to this problem?  
 
-
-
+# # <span style="color:red">Finish</span>
 
 # <div style="text-align: right"> (20 marks) </div><br>
