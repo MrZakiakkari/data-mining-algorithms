@@ -380,18 +380,18 @@ print(f"Answer:{p:.2%}")
 
 # # <span style="color:red">Finish</span>
 
-Answer: Regression Analysis would be the suited algorithm for this. This is because the Regression Analysis helps determine different levels of customer satisfactions and how they affect customer loyalty and how service levels can be affected by for example the weather.
-Regression analysis tries to define the dependency between variables. It assumes a one-way causal effect from one variable to the response of another variable. Independent variables can be affected by each other but it does not mean that this dependency is both ways as is the case with correlation analysis. A regression analysis can show that one variable is dependent on another but not vice-versa
-By using the Regression Line it helps determine the most positive correlation line from the manufacturing plant of both Ireland and Poland and it is easy to interpret, can adopt any data situation and can use many variables to predict one.    
-
+# **Answer:** Regression Analysis would be the suited algorithm for this. This is because the Regression Analysis helps determine different levels of customer satisfactions and how they affect customer loyalty and how service levels can be affected by for example the weather.
+# Regression analysis tries to define the dependency between variables. It assumes a one-way causal effect from one variable to the response of another variable. Independent variables can be affected by each other but it does not mean that this dependency is both ways as is the case with correlation analysis. A regression analysis can show that one variable is dependent on another but not vice-versa
+# By using the Regression Line it helps determine the most positive correlation line from the manufacturing plant of both Ireland and Poland and it is easy to interpret, can adopt any data situation and can use many variables to predict one.    
+# 
 
 # (b) the software company you work for monitors users online time, access to the SaaS, number of purchases, length of time online, the number of sessions, length of session etc.  They are interested in predicting which users are likely to be retained and which are likely to churn.  What algorithm would help provide an insight to this problem?  
 
 # # <span style="color:red">Finish</span>
 
-Answer: Classification Analysis would be the suited approach for this. Classification Analysis is a systematic process for obtaining important and relevant information about data, and metadata - data about data. The classification analysis helps identifying to which of a set of categories different types of data belong. Classification analysis is closely linked to cluster analysis as the classification can be used to cluster data.
-Classification analyses a set of training data (i.e. a set of objects whose class label is known) and constructs a model for each class based on the features in the data.  
-such as if users are retained or not and another example to classify which user is likely to churn. Classification as a technique complements clustering. Clustering creates the buckets or boxes and classification puts new cases into them. It parallels the distinction between supervised and unsupervised learning in machine learning, which has to do with whether you actually have a label or a category membership for cases or not.
-
+# **Answer:** Classification Analysis would be the suited approach for this. Classification Analysis is a systematic process for obtaining important and relevant information about data, and metadata - data about data. The classification analysis helps identifying to which of a set of categories different types of data belong. Classification analysis is closely linked to cluster analysis as the classification can be used to cluster data.
+# Classification analyses a set of training data (i.e. a set of objects whose class label is known) and constructs a model for each class based on the features in the data.  
+# such as if users are retained or not and another example to classify which user is likely to churn. Classification as a technique complements clustering. Clustering creates the buckets or boxes and classification puts new cases into them. It parallels the distinction between supervised and unsupervised learning in machine learning, which has to do with whether you actually have a label or a category membership for cases or not.
+# 
 
 # <div style="text-align: right"> (20 marks) </div><br>
